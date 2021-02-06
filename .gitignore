@@ -1,0 +1,6 @@
+CNN_MNIST_GPU_CUDA/**/*.txt
+CNN_MNIST_GPU_CUDA/**/data
+!/.exe
+CNN_MNIST_GPU_CUDA/**/x64
+CNN_MNIST_GPU_CUDA/**/.vs
+
