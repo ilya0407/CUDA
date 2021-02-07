@@ -1,5 +1,7 @@
 /* @(#)kernels.h
  */
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 
 #ifndef _KERNELS_H
 #define _KERNELS_H 1

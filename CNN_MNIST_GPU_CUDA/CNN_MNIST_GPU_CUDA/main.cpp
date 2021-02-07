@@ -18,12 +18,6 @@ int main(int argc, char** argv){
     //  specify the num of hidden layers and the num of neurons in each hidden layer
     
     num_nodes.push_back(30); 
-    
-    // If you want to add another hidder layer with 30 neurons, you can
-    // uncomment the following line. You can add as many hidden layers
-    // as you want.
-  
-    // num_nodes.push_back(30); // add one hidder layer with 30 neurons
   
     num_nodes.push_back(10); // the softmax layer
 
@@ -31,27 +25,28 @@ int main(int argc, char** argv){
     int num_steps = 1000; // num of gradien descent steps
     float epsilon = 2.0; // step size
 
+    std::ofstream fout("results");
 
     //// print configuration of the network
-    std::cout << "////////////////////////////////////////////////////////////" << std::endl;
-    std::cout << "Configuration of the nerual network:" << std::endl;
-    std::cout << "Num of layers: " << num_nodes.size() << std::endl;
-    std::cout << "Num of neurons in each layer: " << std::endl ;
-    std::cout << "  size of input layer: " << 784 << std::endl;
+    fout << "////////////////////////////////////////////////////////////" << std::endl;
+    fout << "Configuration of the nerual network:" << std::endl;
+    fout << "Num of layers: " << num_nodes.size() << std::endl;
+    fout << "Num of neurons in each layer: " << std::endl ;
+    fout << "  size of input layer: " << 784 << std::endl;
     for (int i = 1; i < num_nodes.size() - 1; i++)
     {
-    std::cout << "  size of hidden layer " << i << ": " << num_nodes[i] << std::endl;
+    fout << "  size of hidden layer " << i << ": " << num_nodes[i] << std::endl;
     }
-    std::cout << "  size of softmax layer: " << 10 << std::endl;;
+    fout << "  size of softmax layer: " << 10 << std::endl;;
 
-    std::cout << "Parameter for of optimization:" << std::endl;
-    std::cout << " num of steps: " <<  num_steps << std::endl;
-    std::cout << " step size:" << epsilon << std::endl;
+    fout << "Parameter for of optimization:" << std::endl;
+    fout << " num of steps: " <<  num_steps << std::endl;
+    fout << " step size:" << epsilon << std::endl;
 
   
     //// read files
-    std::cout << std::endl << "////////////////////////////////////////////////////////////" << std::endl;  
-    std::cout << "Reading data and make Neural Netowrk objects for training and validation" << std::endl;
+    fout << std::endl << "////////////////////////////////////////////////////////////" << std::endl;  
+    fout << "Reading data and make Neural Netowrk objects for training and validation" << std::endl;
     std::ifstream in_file;  
     int train_batch_size = 10000;
     NN train_nn(num_nodes.size(), num_nodes, train_batch_size);
@@ -112,12 +107,12 @@ int main(int argc, char** argv){
     }
 
     //// Start the training process
-    std::cout << std::endl << "////////////////////////////////////////////////////////////" << std::endl;  
-    std::cout << "Starint training ......" << std::endl;
+    fout << std::endl << "////////////////////////////////////////////////////////////" << std::endl;  
+    fout << "Starint training ......" << std::endl;
     
     for(int n = 0; n < num_steps; n++){
         std::random_shuffle(idxs.begin(), idxs.end());  
-        for(int i = 0; i < train_batch_size; i++)û{
+        for(int i = 0; i < train_batch_size; i++){
             for(int j = 0; j < dim; j++){
                 train_batch_image[IDX(i,j,train_batch_size)] = train_image[IDX(idxs[i],j,train_data_size)];
             }
@@ -128,15 +123,15 @@ int main(int argc, char** argv){
         validation_nn.set_weights(train_nn.get_weights());
         validation_nn.set_bias(train_nn.get_bias());
         validation_nn.feed_forward();
-        std::cout << "Step: " << std::setw(4) << std::right << n << ", ";
-        std::cout << "Cost: " << std::fixed << std::setprecision(3) << cost << ", ";
-        std::cout << "training accuracy: " <<  train_nn.calc_accuracy() << ", ";
-        std::cout << "validation accuracy: " <<  validation_nn.calc_accuracy() << std::endl;
+        fout << "Step: " << std::setw(4) << std::right << n << ", ";
+        fout << "Cost: " << std::fixed << std::setprecision(3) << cost << ", ";
+        fout << "training accuracy: " <<  train_nn.calc_accuracy() << ", ";
+        fout << "validation accuracy: " <<  validation_nn.calc_accuracy() << std::endl;
     }
 
-    std::cout << std::endl << "////////////////////////////////////////////////////////////" << std::endl;
-    std::cout << "Evalution the model on testing data:" << std::endl;
-    std::cout << "Reading data and make Neural Netowrk objects for testing" << std::endl;  
+    fout << std::endl << "////////////////////////////////////////////////////////////" << std::endl;
+    fout << "Evalution the model on testing data:" << std::endl;
+    fout << "Reading data and make Neural Netowrk objects for testing" << std::endl;  
     // read test image
     int test_data_size = 10000;
     in_file.open("test_image.txt", std::ifstream::in);
@@ -162,7 +157,7 @@ int main(int argc, char** argv){
     test_nn.set_weights(train_nn.get_weights());
     test_nn.set_bias(train_nn.get_bias());
     test_nn.feed_forward();
-    std::cout << "Cost: " << std::fixed << std::setprecision(3) << test_nn.calc_cost() << ", ";
-    std::cout << "test accuracy: " <<  test_nn.calc_accuracy() << std::endl;
+    fout << "Cost: " << std::fixed << std::setprecision(3) << test_nn.calc_cost() << ", ";
+    fout << "test accuracy: " <<  test_nn.calc_accuracy() << std::endl;
     return 0;
 }
