@@ -5,3 +5,9 @@ CNN_MNIST_GPU_CUDA/**/data
 CNN_MNIST_GPU_CUDA/**/x64
 CNN_MNIST_GPU_CUDA/**/.vs
 
+CNN_first/**/*.txt
+CNN_first/**/data
+!results.txt
+!/.exe
+CNN_first/**/x64
+CNN_first/**/.vs
